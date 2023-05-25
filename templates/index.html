@@ -2,32 +2,22 @@
 <html lang="en">
   <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta property="og:title" content="Personal Diary" />
+    <meta property="og:description" content="Website to save your personal diary" />
+    <meta property="og:image" content="{{ url_for('static', filename='thumbnail.jpg') }}" />
+
     <title>Personal Diary</title>
 
     <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-      crossorigin="anonymous"
-    />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Jua&amp;display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Jua&amp;display=swap" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
     <script>
       $(document).ready(function () {
@@ -49,6 +39,8 @@
               let profile = articles[i]["profile"] || "default-profile.jpg";
               let title = articles[i]["title"];
               let content = articles[i]["content"];
+              let time = articles[i]["time"] || "unknown";
+
               let temp_html = `
                 <div class="col-4">
                   <div class="card">
@@ -58,10 +50,10 @@
                     <div class="card-body">
                       <img
                       src="../${profile}"
-                      class="card-img-top rounded-circle float-left" alt="gambar-profile" style="width: 64px">
+                      class="card-img-top float-left" alt="gambar-profile" style="width: 64px; height: 64px; object-fit: cover; border-radius: 50%;">
                       <h5 class="card-title">${title}</h5>
                       <p class="card-text">${content}</p>
-                      <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                      <h6 class="card-subtitle mb-2 text-muted">${time}</h6>
                     </div>
                   </div>
                 </div>
@@ -75,14 +67,14 @@
       function posting() {
         var title = $("#image-title").val();
         var content = $("#image-description").val();
+        let file = $("#image").prop("files")[0];
+        let profile = $("#profile").prop("files")[0];
 
-        if (!title || !content) {
-          alert("Harap isi Judul dan Deskripsi");
+        if (!title || !content || !file || !profile) {
+          alert("Harap isi data dengan lengkap");
           return;
         }
 
-        let file = $("#image").prop("files")[0];
-        let profile = $("#profile").prop("files")[0];
 
         let form_data = new FormData();
 
